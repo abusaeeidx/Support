@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Free Donation</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      text-align: center;
+      padding: 50px 20px;
+      overflow-x: hidden;
+    }
+    h2 {
+      color: #222;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #555;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 15px;
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #28a745;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    #progress {
+      width: 0%;
+      height: 8px;
+      background-color: #28a745;
+      border-radius: 5px;
+      margin: 15px auto;
+      transition: width 0.4s ease;
+    }
+    #progress-container {
+      width: 200px;
+      background: #ddd;
+      border-radius: 5px;
+      margin: 10px auto;
+      display: none;
+    }
+    #thank-you {
+      color: #007bff;
+      margin-top: 15px;
+      font-weight: bold;
+      display: none;
+    }
+    #click-count {
+      margin-top: 8px;
+      color: #444;
+      font-size: 14px;
+    }
+    #badge {
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 5px;
+      color: #ff9800;
+    }
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      animation: fall 2s linear forwards;
+      z-index: 9999;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotateZ(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>❤️ Support with a Free Donation</h2>
+  <p>No payment needed — just one click helps us grow!</p>
+
+  <button onclick="donate()">✨ Click to Donate</button>
+
+  <div id="progress-container">
+    <div id="progress"></div>
+  </div>
+
+  <div id="click-count">
+    Total Clicks: <span id="count">0</span>
+    <div id="badge">Badge: None</div>
+  </div>
+  <div id="thank-you">Thank you for your support!</div>
+
+  <script>
+    let count = parseInt(localStorage.getItem("clickCount")) || 0;
+    document.getElementById("count").textContent = count;
+    updateBadge();
+
+    function updateBadge() {
+      const badge = document.getElementById("badge");
+      if (count >= 20) badge.textContent = "Badge: 🥇 Gold";
+      else if (count >= 10) badge.textContent = "Badge: 🥈 Silver";
+      else if (count >= 5) badge.textContent = "Badge: 🥉 Bronze";
+      else badge.textContent = "Badge: None";
+    }
+
+    function donate() {
+      document.getElementById("progress-container").style.display = "block";
+      document.getElementById("progress").style.width = "0%";
+      document.getElementById("thank-you").style.display = "none";
+
+      let progress = 0;
+      let interval = setInterval(() => {
+        progress += 10;
+        document.getElementById("progress").style.width = progress + "%";
+        if (progress >= 100) {
+          clearInterval(interval);
+
+          count++;
+          localStorage.setItem("clickCount", count);
+          document.getElementById("count").textContent = count;
+          updateBadge();
+
+          document.getElementById("thank-you").style.display = "block";
+
+          launchConfetti(40); // add confetti
+
+          window.open("https://gapcontroversialprodigal.com/cpq9q2cg9w?key=4c5c491d8a2b5c5ae4cf3acc0ccb34bf", "_blank");
+        }
+      }, 100);
+    }
+
+    function launchConfetti(count) {
+      for (let i = 0; i < count; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 2000);
+      }
+    }
+  </script>
+</body>
+</html>
